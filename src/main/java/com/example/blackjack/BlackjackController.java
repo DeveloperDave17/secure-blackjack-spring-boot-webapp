@@ -15,8 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BlackjackController {
 
     @Autowired
-    private BlackjackRepository repository;
+    private BlackjackRepository repository; // Repository for games
 
+    /**
+     * Deals the initial cards and redirects to the game page
+     * @param bet The positive amount of money to bet
+     * @return Redirects to the game page
+     */
     @GetMapping("/deal")
     public String deal(@RequestParam double bet) {
         Game game = new Game(bet);
@@ -41,6 +46,12 @@ public class BlackjackController {
         return "redirect:/games/" + game.getId();
     }
 
+    /**
+     * Shows the game page
+     * @param id The positive id of the game
+     * @param model The model to be used by the view
+     * @return The game page
+     */
     @GetMapping("/games/{id}")
     public String game(@PathVariable long id, Model model) {
         Game game = repository.findById(id).orElseThrow();
@@ -55,6 +66,12 @@ public class BlackjackController {
         return "game";
     }
 
+    /**
+     * Deals another game and redirects to the game page
+     * @param id The positive id of the game
+     * @param bet The positive amount of money to bet
+     * @return Redirects to the game page
+     */
     @GetMapping("/games/{id}/deal")
     public String dealAgain(@PathVariable long id, @RequestParam double bet) {
         Game game = repository.findById(id).orElseThrow();
@@ -63,6 +80,11 @@ public class BlackjackController {
         return "redirect:/games/" + id;
     }
 
+    /**
+     * Gives the player another card and redirects to the game page
+     * @param id The positive id of the game
+     * @return Redirects to the game page
+     */
     @PostMapping("/games/{id}/hit")
     public String hit(@PathVariable long id) {
         Game game = repository.findById(id).orElseThrow();
@@ -81,6 +103,11 @@ public class BlackjackController {
         return "redirect:/games/" + id;
     }
 
+    /**
+     * Gives the dealer cards until their value is at least 17 and redirects to the game page
+     * @param id The positive id of the game
+     * @return Redirects to the game page
+     */
     @PostMapping("/games/{id}/stand")
     public String stand(@PathVariable long id) {
         Game game = repository.findById(id).orElseThrow();

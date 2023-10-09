@@ -11,10 +11,13 @@ public class Deck {
 
     @Id
     @GeneratedValue
-    private long id;
+    private long id; // JPA ID
     @OneToMany(cascade = CascadeType.ALL)
-    private final List<Card> cards;
+    private final List<Card> cards; // Cards in the deck
 
+    /**
+     * Creates a deck.
+     */
     public Deck() {
         this.cards = new ArrayList<>();
 
@@ -25,10 +28,18 @@ public class Deck {
         }
     }
 
+    /**
+     * Deals a card face up to the hand.
+     * @param hand the hand to deal to
+     */
     public void dealFaceUp(Hand hand) {
         hand.getCards().add(cards.remove(new Random().nextInt(cards.size())).flip());
     }
 
+    /**
+     * Deals a card face down to the hand.
+     * @param hand the hand to deal to
+     */
     public void dealFaceDown(Hand hand) {
         hand.getCards().add(cards.remove(new Random().nextInt(cards.size())));
     }
