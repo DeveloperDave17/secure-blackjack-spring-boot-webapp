@@ -8,6 +8,7 @@ import java.util.Random;
 public class Game {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private long id; // JPA ID
     private double bet; // Bet amount
     private double money; // Player's money
@@ -30,7 +31,6 @@ public class Game {
      * @param bet the amount of money to bet
      */
     public Game(double bet) {
-        this.id = new Random().nextLong(Long.MAX_VALUE);
         this.bet = bet;
         this.money = 0D;
         this.ongoing = true;
