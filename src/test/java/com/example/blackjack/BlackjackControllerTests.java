@@ -65,14 +65,66 @@ public class BlackjackControllerTests {
     }
 
     @Test
-    void gameTC10() {
+    void dealAgainTC13() {
+        // Create the 37th game
+        for (int i = 0; i < 37; i++) {
+            blackjackController.deal(1.11);
+        }
         try {
-            blackjackController.deal(15);
-            blackjackController.game(0, null);
+            long id = 37;
+            double bet = 1.11;
+            String expectedOutput = "redirect:/games/37";
+            String output = blackjackController.dealAgain(id, bet);
+            assert(output).equals(expectedOutput);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void dealAgainTC17() {
+        try {
+            long id = -52;
+            double bet = 1.11;
+            blackjackController.dealAgain(id, bet);
             // Expected to fail before this point
             fail();
         } catch (Exception e) {
             assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC20() {
+        // Create the 37th game
+        for (int i = 0; i < 37; i++) {
+            blackjackController.deal(1.11);
+        }
+        try {
+            long id = 37L;
+            double bet = -420;
+            blackjackController.dealAgain(id, bet);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void hitTC21() {
+        // Create the 42nd game
+        for (int i = 0; i < 42; i++) {
+            blackjackController.deal(1.11);
+        }
+        try {
+            long id = 42L;
+            String expectedOutput = "redirect:/games/42";
+            String actualOutput = blackjackController.hit(id);
+            assert(actualOutput).equals(expectedOutput);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
         }
     }
 
