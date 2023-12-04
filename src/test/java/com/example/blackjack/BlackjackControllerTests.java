@@ -2,6 +2,7 @@ package com.example.blackjack;
 
 import com.example.blackjack.models.Game;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -34,7 +35,7 @@ public class BlackjackControllerTests {
     void dealTC1() {
         String expectedOutput = "redirect:/games/1";
         String output = blackjackController.deal(15);
-        assert (output).equals(expectedOutput);
+        assert(output).equals(expectedOutput);
     }
 
     @Test
@@ -220,4 +221,70 @@ public class BlackjackControllerTests {
         assert(output).equals(expectedOutput);
     }
 
+    /**
+     * Due to the random nature of the method deal in BlackjackController the closest we can get to path coverage is
+     * to run the test multiple times in hopes of hitting these different cases. The rarest case is a blackjack which
+     * happens roughly 4.83% of the time or 1/20. We are executing the test 250 times to make it highly unlikely a
+     * blackjack doesn't occur.
+     */
+    @RepeatedTest(250)
+    void dealTC86ThroughTC93() {
+        // Create the 10th game
+        for (int i = 0; i < 10; i++) {
+            blackjackController.deal(20.0);
+        }
+        String expectedOutput = "redirect:/games/11";
+        String actualOutput = blackjackController.deal(20.0);
+        assert(actualOutput).equals(expectedOutput);
+    }
+
+    @Test
+    void gameTC94() {
+        gameTC5();
+    }
+
+    @Test
+    void gameTC95() {
+        gameTC5();
+    }
+
+    @Test
+    void dealAgainTC96() {
+        dealAgainTC13();
+    }
+
+    @Test
+    void dealAgainTC97() {
+        dealAgainTC13();
+    }
+
+    /**
+     * For Test cases TC98 through TC101 due to the random nature of the method hit in BlackjackController the
+     * closest we can get to path coverage is to run the test multiple times in hopes of hitting these different cases.
+     * The rarest case is a hit not busting which should happen just under 50% of the time. To be sure we hit our two
+     * cases here we are executing the tests 20 times.
+     */
+    @RepeatedTest(20)
+    void hitTC98ThroughTC101() {
+        // Create the 17th game
+        for (int i = 0; i < 17; i++) {
+            blackjackController.deal(20.0);
+        }
+        int id = 17;
+        String actualOutput = blackjackController.hit(id);
+        String expectedOutput = "redirect:/games/17";
+        assert(actualOutput).equals(expectedOutput);
+    }
+
+    @RepeatedTest(20)
+    void standTC102ThroughTC108() {
+        // Create the 21st game
+        for (int i = 0; i < 21; i++) {
+            blackjackController.deal(20.0);
+        }
+        int id = 21;
+        String actualOutput = blackjackController.stand(id);
+        String expectedOutput = "redirect:/games/17";
+        assert(actualOutput).equals(expectedOutput);
+    }
 }
