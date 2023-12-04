@@ -37,6 +37,7 @@ public class BlackjackControllerTests {
     void dealTC4() {
         try {
             blackjackController.deal(-100);
+            // Expected to fail before this point
             fail();
         } catch (Exception e) {
             assertNotNull(e);
@@ -51,6 +52,29 @@ public class BlackjackControllerTests {
         assert(output).equals(expectedOutput);
     }
 
+    @Test
+    void gameTC9() {
+        try {
+            blackjackController.deal(15);
+            blackjackController.game(0, new ConcurrentModel());
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void gameTC10() {
+        try {
+            blackjackController.deal(15);
+            blackjackController.game(0, null);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
 
 
 }
