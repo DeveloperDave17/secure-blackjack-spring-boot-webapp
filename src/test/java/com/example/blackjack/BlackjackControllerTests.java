@@ -1,5 +1,6 @@
 package com.example.blackjack;
 
+import com.example.blackjack.models.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class BlackjackControllerTests {
 
     @Autowired
     BlackjackController blackjackController;
+
+    @Autowired
+    private BlackjackRepository repository; // Repository for games
 
     @BeforeEach
     public void setup() {}
@@ -65,5 +69,91 @@ public class BlackjackControllerTests {
     }
     
 
+    @Test
+    void dealTC44() {
+        try {
+            blackjackController.deal(Double.MAX_VALUE + 1);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealTC45() {
+        String expectedOutput = "redirect:/games/1";
+        String output = blackjackController.deal(Double.MAX_VALUE);
+        assert (output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealTC46() {
+        String expectedOutput = "redirect:/games/1";
+        String output = blackjackController.deal(Double.MAX_VALUE - 1);
+        assert (output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealTC47() {
+        try {
+            blackjackController.deal(0.0D);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealTC48() {
+        String expectedOutput = "redirect:/games/1";
+        String output = blackjackController.deal(0.00001D);
+        assert (output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealTC49() {
+        String expectedOutput = "redirect:/games/1";
+        String output = blackjackController.deal(1.0D);
+        assert (output).equals(expectedOutput);
+    }
+
+    @Test
+    void gameTC50() {
+        try {
+            blackjackController.deal(15);
+            Game game = repository.findById(1L).orElseThrow();
+            game.setId(Long.MAX_VALUE + 1);
+            repository.save(game);
+            blackjackController.game(Long.MAX_VALUE + 1, new ConcurrentModel());
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void gameTC51() {
+        blackjackController.deal(15);
+        Game game = repository.findById(1L).orElseThrow();
+        game.setId(Long.MAX_VALUE);
+        repository.save(game);
+        String expectedOutput = "game";
+        String output = blackjackController.game(Long.MAX_VALUE, new ConcurrentModel());
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void gameTC52() {
+        blackjackController.deal(15);
+        Game game = repository.findById(1L).orElseThrow();
+        game.setId(Long.MAX_VALUE);
+        repository.save(game);
+        String expectedOutput = "game";
+        String output = blackjackController.game(Long.MAX_VALUE - 1, new ConcurrentModel());
+        assert(output).equals(expectedOutput);
+    }
 
 }
