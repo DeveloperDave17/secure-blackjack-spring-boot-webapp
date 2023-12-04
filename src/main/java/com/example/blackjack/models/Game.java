@@ -53,6 +53,14 @@ public class Game {
     }
 
     /**
+     * Sets the id of the game.
+     * @param id the id of the game
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
      * Gets the player's money.
      * @return the player's money
      */
