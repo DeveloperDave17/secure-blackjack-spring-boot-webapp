@@ -211,9 +211,6 @@ public class BlackjackControllerTests {
     void gameTC50() {
         try {
             blackjackController.deal(15);
-            Game game = repository.findById(1L).orElseThrow();
-            game.setId(Long.MAX_VALUE + 1);
-            repository.save(game);
             blackjackController.game(Long.MAX_VALUE + 1, new ConcurrentModel());
             // Expected to fail before this point
             fail();
@@ -224,24 +221,318 @@ public class BlackjackControllerTests {
 
     @Test
     void gameTC51() {
-        blackjackController.deal(15);
-        Game game = repository.findById(1L).orElseThrow();
-        game.setId(Long.MAX_VALUE);
-        repository.save(game);
+        for (int i = 0; i < 1_000_000; i++) {
+            blackjackController.deal(15);
+        }
         String expectedOutput = "game";
-        String output = blackjackController.game(Long.MAX_VALUE, new ConcurrentModel());
+        String output = blackjackController.game(1_000_000L, new ConcurrentModel());
         assert(output).equals(expectedOutput);
     }
 
     @Test
     void gameTC52() {
-        blackjackController.deal(15);
-        Game game = repository.findById(1L).orElseThrow();
-        game.setId(Long.MAX_VALUE);
-        repository.save(game);
+        for (int i = 0; i < 1_000_000 - 1; i++) {
+            blackjackController.deal(15);
+        }
         String expectedOutput = "game";
-        String output = blackjackController.game(Long.MAX_VALUE - 1, new ConcurrentModel());
+        String output = blackjackController.game(1_000_000 - 1, new ConcurrentModel());
         assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void gameTC53() {
+        try {
+            blackjackController.deal(15);
+            blackjackController.game(0L, new ConcurrentModel());
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void gameTC54() {
+        blackjackController.deal(15);
+        String expectedOutput = "game";
+        String output = blackjackController.game(1L, new ConcurrentModel());
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void gameTC55() {
+        blackjackController.deal(15);
+        blackjackController.deal(15);
+        String expectedOutput = "game";
+        String output = blackjackController.game(2L, new ConcurrentModel());
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC56() {
+        try {
+            blackjackController.deal(15);
+            blackjackController.dealAgain(Long.MAX_VALUE + 1, 1.11);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC57() {
+        for (int i = 0; i < 1_000_000; i++) {
+            blackjackController.deal(15);
+        }
+        String expectedOutput = "redirect:/games/" + 1_000_000;
+        String output = blackjackController.dealAgain(1_000_000, 1.11);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC58() {
+        for (int i = 0; i < 1_000_000 - 1; i++) {
+            blackjackController.deal(15);
+        }
+        String expectedOutput = "redirect:/games/" + (1_000_000 - 1);
+        String output = blackjackController.dealAgain(1_000_000 - 1, 1.11);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC59() {
+        try {
+            blackjackController.deal(15);
+            blackjackController.dealAgain(0L, 1.11);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC60() {
+        blackjackController.deal(15);
+        String expectedOutput = "redirect:/games/" + 1L;
+        String output = blackjackController.dealAgain(1L, 1.11);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC61() {
+        blackjackController.deal(15);
+        blackjackController.deal(15);
+        String expectedOutput = "redirect:/games/" + 2L;
+        String output = blackjackController.dealAgain(2L, 1.11);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC62() {
+        try {
+            for (int i = 0; i < 37 - 1; i++) {
+                blackjackController.deal(15);
+            }
+            blackjackController.dealAgain(37L, Double.MAX_VALUE + 1);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC63() {
+        for (int i = 0; i < 37 - 1; i++) {
+            blackjackController.deal(15);
+        }
+        String expectedOutput = "redirect:/games/" + 37L;
+        String output = blackjackController.dealAgain(37L, Double.MAX_VALUE);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC64() {
+        for (int i = 0; i < 37 - 1; i++) {
+            blackjackController.deal(15);
+        }
+        String expectedOutput = "redirect:/games/" + 37L;
+        String output = blackjackController.dealAgain(37L, Double.MAX_VALUE - 1);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC65() {
+        try {
+            for (int i = 0; i < 37 - 1; i++) {
+                blackjackController.deal(15);
+            }
+            blackjackController.dealAgain(37L, 0.0);
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC66() {
+        for (int i = 0; i < 37 - 1; i++) {
+            blackjackController.deal(15);
+        }
+        String expectedOutput = "redirect:/games/" + 37L;
+        String output = blackjackController.dealAgain(37L, 0.00001);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC67() {
+        for (int i = 0; i < 37 - 1; i++) {
+            blackjackController.deal(15);
+        }
+        String expectedOutput = "redirect:/games/" + 37L;
+        String output = blackjackController.dealAgain(37L, 1.0);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void hitTC68() {
+        for (int i = 0; i < 1_000_000; i++) {
+            blackjackController.deal(15);
+        }
+        try {
+            this.mockMvc.perform(get("/games/" + (Long.MAX_VALUE + 1) + "/hit"));
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void hitTC69() {
+        for (int i = 0; i < 1_000_000; i++) {
+            blackjackController.deal(15);
+        }
+        try {
+            this.mockMvc.perform(get("/games/" + 1_000_000 + "/hit"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void hitTC70() {
+        for (int i = 0; i < 1_000_000 - 1; i++) {
+            blackjackController.deal(15);
+        }
+        try {
+            this.mockMvc.perform(get("/games/" + (1_000_000 - 1) + "/hit"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void hitTC71() {
+        blackjackController.deal(15);
+        try {
+            this.mockMvc.perform(get("/games/" + 0L + "/hit"));
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void hitTC72() {
+        blackjackController.deal(15);
+        try {
+            this.mockMvc.perform(get("/games/" + 1L + "/hit"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void hitTC73() {
+        blackjackController.deal(15);
+        blackjackController.deal(15);
+        try {
+            this.mockMvc.perform(get("/games/" + 2L + "/hit"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void standTC74() {
+        for (int i = 0; i < 1_000_000; i++) {
+            blackjackController.deal(15);
+        }
+        try {
+            this.mockMvc.perform(get("/games/" + (Long.MAX_VALUE + 1) + "/stand"));
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void standTC75() {
+        for (int i = 0; i < 1_000_000; i++) {
+            blackjackController.deal(15);
+        }
+        try {
+            this.mockMvc.perform(get("/games/" + 1_000_000 + "/stand"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void standTC76() {
+        for (int i = 0; i < 1_000_000 - 1; i++) {
+            blackjackController.deal(15);
+        }
+        try {
+            this.mockMvc.perform(get("/games/" + (1_000_000 - 1) + "/stand"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void standTC77() {
+        blackjackController.deal(15);
+        try {
+            this.mockMvc.perform(get("/games/" + 0L + "/stand"));
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void standTC78() {
+        blackjackController.deal(15);
+        try {
+            this.mockMvc.perform(get("/games/" + 1L + "/stand"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void standTC79() {
+        blackjackController.deal(15);
+        blackjackController.deal(15);
+        try {
+            this.mockMvc.perform(get("/games/" + 2L + "/stand"));
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     /**

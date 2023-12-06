@@ -69,6 +69,74 @@ public class GameTests {
     }
 
     @Test
+    void dealAgainTC80() {
+        try {
+            double bet = Double.MAX_VALUE + 1;
+            game.dealAgain(bet);
+            // Fails if the method executes with throwing an Exception
+            fail();
+        } catch(Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC81() {
+        try {
+            double bet = Double.MAX_VALUE;
+            game.dealAgain(bet);
+        } catch(Exception e) {
+            // The test fails if an exception is thrown
+            fail();
+        }
+    }
+
+    @Test
+    void dealAgainTC82() {
+        try {
+            double bet = Double.MAX_VALUE - 1;
+            game.dealAgain(bet);
+        } catch(Exception e) {
+            // The test fails if an exception is thrown
+            fail();
+        }
+    }
+
+    @Test
+    void dealAgainTC83() {
+        try {
+            double bet = 0.0;
+            game.dealAgain(bet);
+            // Fails if the method executes with throwing an Exception
+            fail();
+        } catch(Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC84() {
+        try {
+            double bet = 0.00001;
+            game.dealAgain(bet);
+        } catch(Exception e) {
+            // The test fails if an exception is thrown
+            fail();
+        }
+    }
+
+    @Test
+    void dealAgainTC85() {
+        try {
+            double bet = 1.0;
+            game.dealAgain(bet);
+        } catch(Exception e) {
+            // The test fails if an exception is thrown
+            fail();
+        }
+    }
+
+    @Test
     void setMessageTC121() {
         try {
             game.setMessage("Dealer busts! Player wins!");
