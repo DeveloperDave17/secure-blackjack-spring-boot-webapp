@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class HandTests {
@@ -240,5 +241,93 @@ public class HandTests {
     @Test
     void getValueTC170() {
         getValueTC146();
+    }
+
+    @Test
+    void flipLastCardTC230() {
+        double bet = 100.0;
+        game = new Game(bet);
+        Hand hand = game.getPlayerHand();
+        List<Card> cards = hand.getCards();
+        cards.remove(0);
+        cards.remove(0);
+        cards.add(new Card(Rank.ACE, "♣"));
+        cards.get(0).flip();
+        cards.add(new Card(Rank.ACE, "♦"));
+        hand.flipLastCard();
+        assert(cards.get(1).isFlipped());
+    }
+
+    @Test
+    void flipLastCardTC231() {
+        try {
+            double bet = 100.0;
+            game = new Game(bet);
+            Hand hand = game.getPlayerHand();
+            List<Card> cards = hand.getCards();
+            cards.remove(0);
+            cards.remove(0);
+            hand.flipLastCard();
+            // The test should throw an exception before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void isBlackjackTC233() {
+        double bet = 100.0;
+        game = new Game(bet);
+        Hand hand = game.getPlayerHand();
+        List<Card> cards = hand.getCards();
+        cards.remove(0);
+        cards.remove(0);
+        cards.add(new Card(Rank.ACE, "♣"));
+        cards.get(0).flip();
+        cards.add(new Card(Rank.ACE, "♦"));
+        cards.get(1).flip();
+        assert(!hand.isBlackjack());
+    }
+
+    @Test
+    void isBlackjackTC234() {
+        double bet = 100.0;
+        game = new Game(bet);
+        Hand hand = game.getPlayerHand();
+        List<Card> cards = hand.getCards();
+        cards.remove(0);
+        cards.remove(0);
+        assert(!hand.isBlackjack());
+    }
+
+    @Test
+    void isBlackjackTC236() {
+        double bet = 100.0;
+        game = new Game(bet);
+        Hand hand = game.getPlayerHand();
+        List<Card> cards = hand.getCards();
+        cards.remove(0);
+        cards.remove(0);
+        cards.add(new Card(Rank.ACE, "♣"));
+        cards.get(0).flip();
+        cards.add(new Card(Rank.ACE, "♦"));
+        cards.get(1).flip();
+        int expectedOutput = 2;
+        int actualOutput = hand.getValue();
+        assert(expectedOutput == actualOutput);
+    }
+
+    @Test
+    void isBlackjackTC237() {
+        double bet = 100.0;
+        game = new Game(bet);
+        Hand hand = game.getPlayerHand();
+        List<Card> cards = hand.getCards();
+        cards.remove(0);
+        cards.remove(0);
+        int expectedOutput = 0;
+        int actualOutput = hand.getValue();
+        assert(expectedOutput == actualOutput);
     }
 }
