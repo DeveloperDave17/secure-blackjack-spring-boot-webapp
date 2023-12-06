@@ -93,4 +93,19 @@ public class DeckTests {
     void deckTC120() {
         deckTC119();
     }
+
+    @Test
+    void dealFaceUpTC162() {
+        dealFaceUpTC31();
+    }
+
+    @Test
+    void dealFaceDownTC163() {
+        dealFaceDownTC34();
+    }
+
+    @Test
+    void deckTC164() {
+        deckTC119();
+    }
 }

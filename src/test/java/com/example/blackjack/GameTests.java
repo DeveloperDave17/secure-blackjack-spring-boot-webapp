@@ -159,4 +159,14 @@ public class GameTests {
        dealAgainTC131();
     }
 
+    @Test
+    void setMessageTC165() {
+        setMessageTC121();
+    }
+
+    @Test
+    void dealAgainTC165() {
+        dealAgainTC131();
+    }
+
 }
