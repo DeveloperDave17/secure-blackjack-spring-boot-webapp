@@ -59,4 +59,26 @@ public class CardTests {
         String actualOutput = card.toString();
         assert(actualOutput).equals(expectedOutput);
     }
+
+    @Test
+    void flipTC187() {
+        card.flip();
+        assert(card.isFlipped());
+    }
+
+    @Test
+    void flipTC188() {
+        assert(!card.isFlipped());
+    }
+
+    @Test
+    void toStringTC189() {
+        toStringTC111();
+    }
+
+    @Test
+    void toStringTC190() {
+        toStringTC112();
+    }
+
 }
