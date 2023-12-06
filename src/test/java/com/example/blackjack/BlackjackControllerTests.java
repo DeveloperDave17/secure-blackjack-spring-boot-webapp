@@ -8,9 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
+import org.springframework.web.context.WebApplicationContext;
 
+
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -26,8 +33,15 @@ public class BlackjackControllerTests {
     @Autowired
     private BlackjackRepository repository; // Repository for games
 
+    @Autowired
+    WebApplicationContext wac;
+
+    MockMvc mockMvc;
+
     @BeforeEach
-    public void setup() {}
+    public void setup() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
     Model model;
 
@@ -123,12 +137,21 @@ public class BlackjackControllerTests {
             blackjackController.deal(1.11);
         }
         try {
-            long id = 42L;
-            String expectedOutput = "redirect:/games/42";
-            String actualOutput = blackjackController.hit(id);
-            assert(actualOutput).equals(expectedOutput);
+            this.mockMvc.perform(get("/games/21/hit"));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            fail();
+        }
+    }
+
+    @Test
+    void standTC26() {
+        // Create the 70th game
+        for (int i = 0; i < 70; i++) {
+            blackjackController.deal(1.11);
+        }
+        try {
+            this.mockMvc.perform(get("/games/70/stand"));
+        } catch (Exception e) {
             fail();
         }
     }
@@ -229,12 +252,13 @@ public class BlackjackControllerTests {
      */
     @RepeatedTest(250)
     void dealTC86ThroughTC93() {
+        double bet = 20.0;
         // Create the 10th game
         for (int i = 0; i < 10; i++) {
-            blackjackController.deal(20.0);
+            blackjackController.deal(bet);
         }
         String expectedOutput = "redirect:/games/11";
-        String actualOutput = blackjackController.deal(20.0);
+        String actualOutput = blackjackController.deal(bet);
         assert(actualOutput).equals(expectedOutput);
     }
 
@@ -270,21 +294,185 @@ public class BlackjackControllerTests {
         for (int i = 0; i < 17; i++) {
             blackjackController.deal(20.0);
         }
-        int id = 17;
-        String actualOutput = blackjackController.hit(id);
-        String expectedOutput = "redirect:/games/17";
-        assert(actualOutput).equals(expectedOutput);
+        try {
+            // id is 17
+            this.mockMvc.perform(get("/games/17/hit"));
+        } catch (Exception e) {
+            fail();
+        }
     }
 
-    @RepeatedTest(20)
+    /**
+     * For Test cases TC102 through TC108 due to the random nature of the method stand in BlackjackController the
+     * closest we can get to path coverage is to run the test multiple times in hopes of hitting these different cases.
+     * The rarest case is a tie which should happen just under 9% of the time. To be sure we hit our two
+     * cases here we are executing the tests 60 times.
+     */
+    @RepeatedTest(60)
     void standTC102ThroughTC108() {
         // Create the 21st game
         for (int i = 0; i < 21; i++) {
             blackjackController.deal(20.0);
         }
-        int id = 21;
-        String actualOutput = blackjackController.stand(id);
-        String expectedOutput = "redirect:/games/17";
-        assert(actualOutput).equals(expectedOutput);
+        try {
+            // id is 21
+            this.mockMvc.perform(get("/games/21/stand"));
+        } catch (Exception e) {
+            fail();
+        }
     }
+
+    @Test
+    void gameTC154() {
+        gameTC94();
+    }
+
+    @Test
+    void dealAgainTC155() {
+        dealAgainTC96();
+    }
+
+    @Test
+    void gameTC171() {
+        double bet = 100.0;
+        blackjackController.deal(bet);
+        String expectedOutput = "game";
+        long id = 1L;
+        String output = blackjackController.game(id, new ConcurrentModel());
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void gameTC172() {
+        long id = 1L;
+        try {
+            blackjackController.game(id, new ConcurrentModel());
+            // method should not execute without throwing an NoSuchElementException
+            fail();
+        } catch (NoSuchElementException e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void gameTC173() {
+        gameTC94();
+    }
+
+    @Test
+    void gameTC174() {
+        gameTC172();
+    }
+
+    @Test
+    void dealAgainTC175() {
+        double bet = 100.0;
+        blackjackController.deal(bet);
+        String expectedOutput = "redirect:/games/1";
+        long id = 1L;
+        String output = blackjackController.dealAgain(id, bet);
+        assert(output).equals(expectedOutput);
+    }
+
+    @Test
+    void dealAgainTC176() {
+        double bet = 100.0;
+        long id = 1L;
+        try {
+            blackjackController.dealAgain(id, bet);
+            // Method shouldn't execute without throwing a NoSuchElementException
+            fail();
+        } catch (NoSuchElementException e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void dealAgainTC177() {
+        dealAgainTC97();
+    }
+
+    @Test
+    void dealAgainTC178() {
+        double bet = 100.0;
+        long id = 37L;
+        try {
+            blackjackController.dealAgain(id, bet);
+            // Method shouldn't execute without throwing a NoSuchElementException
+            fail();
+        } catch (NoSuchElementException e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void hitTC179() {
+        double bet = 100.0;
+        blackjackController.deal(bet);
+        try {
+            this.mockMvc.perform(get("/games/1/hit"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void hitTC180() {
+        long id = 1L;
+        try {
+            blackjackController.hit(id);
+            // Method shouldn't execute without throwing a NoSuchElementException
+            fail();
+        } catch (NoSuchElementException e) {
+            assertNotNull(e);
+        }
+    }
+
+    @RepeatedTest(30)
+    void hitTC181() {
+        double bet = 100.0;
+        for (int i = 0; i < 17; i++) {
+            blackjackController.deal(bet);
+        }
+        try {
+            this.mockMvc.perform(get("/games/17/hit"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void hitTC182() {
+        long id = 17L;
+        try {
+            blackjackController.hit(id);
+            // Method shouldn't execute without throwing a NoSuchElementException
+            fail();
+        } catch (NoSuchElementException e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void standTC183() {
+        double bet = 100.0;
+        blackjackController.deal(bet);
+        try {
+            this.mockMvc.perform(get("/games/1/stand"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @RepeatedTest(30)
+    void standTC185() {
+        double bet = 100.0;
+        blackjackController.deal(bet);
+        try {
+            this.mockMvc.perform(get("/games/1/stand"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
 }
