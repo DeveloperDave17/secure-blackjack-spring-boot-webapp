@@ -127,5 +127,36 @@ public class GameTests {
     void loseBetTC128() {
         loseBetTC127();
     }
-    
+
+    @Test
+    void tieTC129() {
+        try {
+            game.tie();
+        } catch(Exception e) {
+            // This method execution should not cause an exception.
+            fail();
+        }
+    }
+
+    @Test
+    void tieTC130() {
+        tieTC129();
+    }
+
+    @Test
+    void dealAgainTC131() {
+        try {
+            double bet = 100.0;
+            game.dealAgain(bet);
+        } catch(Exception e) {
+            // This method execution should not cause an exception.
+            fail();
+        }
+    }
+
+    @Test
+    void dealAgainTC132() {
+       dealAgainTC131();
+    }
+
 }
