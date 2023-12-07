@@ -332,7 +332,7 @@ public class BlackjackControllerTests {
     @Test
     void dealAgainTC62() {
         try {
-            for (int i = 0; i < 37 - 1; i++) {
+            for (int i = 0; i < 37; i++) {
                 blackjackController.deal(15);
             }
             blackjackController.dealAgain(37L, Double.MAX_VALUE + 1);
@@ -345,7 +345,7 @@ public class BlackjackControllerTests {
 
     @Test
     void dealAgainTC63() {
-        for (int i = 0; i < 37 - 1; i++) {
+        for (int i = 0; i < 37; i++) {
             blackjackController.deal(15);
         }
         String expectedOutput = "redirect:/games/" + 37L;
@@ -355,7 +355,7 @@ public class BlackjackControllerTests {
 
     @Test
     void dealAgainTC64() {
-        for (int i = 0; i < 37 - 1; i++) {
+        for (int i = 0; i < 37; i++) {
             blackjackController.deal(15);
         }
         String expectedOutput = "redirect:/games/" + 37L;
@@ -366,7 +366,7 @@ public class BlackjackControllerTests {
     @Test
     void dealAgainTC65() {
         try {
-            for (int i = 0; i < 37 - 1; i++) {
+            for (int i = 0; i < 37; i++) {
                 blackjackController.deal(15);
             }
             blackjackController.dealAgain(37L, 0.0);
@@ -379,7 +379,7 @@ public class BlackjackControllerTests {
 
     @Test
     void dealAgainTC66() {
-        for (int i = 0; i < 37 - 1; i++) {
+        for (int i = 0; i < 37; i++) {
             blackjackController.deal(15);
         }
         String expectedOutput = "redirect:/games/" + 37L;
@@ -389,7 +389,7 @@ public class BlackjackControllerTests {
 
     @Test
     void dealAgainTC67() {
-        for (int i = 0; i < 37 - 1; i++) {
+        for (int i = 0; i < 37; i++) {
             blackjackController.deal(15);
         }
         String expectedOutput = "redirect:/games/" + 37L;
@@ -403,7 +403,7 @@ public class BlackjackControllerTests {
             blackjackController.deal(15);
         }
         try {
-            this.mockMvc.perform(get("/games/" + (Long.MAX_VALUE + 1) + "/hit"));
+            this.mockMvc.perform(get("/games/" + 10_000 + "/hit"));
             fail();
         } catch (Exception e) {
             assertNotNull(e);
@@ -472,7 +472,7 @@ public class BlackjackControllerTests {
             blackjackController.deal(15);
         }
         try {
-            this.mockMvc.perform(get("/games/" + (Long.MAX_VALUE + 1) + "/stand"));
+            this.mockMvc.perform(get("/games/" + 10_000 + "/stand"));
             fail();
         } catch (Exception e) {
             assertNotNull(e);
