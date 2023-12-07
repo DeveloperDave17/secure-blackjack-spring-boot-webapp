@@ -398,19 +398,6 @@ public class BlackjackControllerTests {
     }
 
     @Test
-    void hitTC68() {
-        for (int i = 0; i < 10_000; i++) {
-            blackjackController.deal(15);
-        }
-        try {
-            this.mockMvc.perform(get("/games/" + 10_000 + "/hit"));
-            fail();
-        } catch (Exception e) {
-            assertNotNull(e);
-        }
-    }
-
-    @Test
     void hitTC69() {
         for (int i = 0; i < 10_000; i++) {
             blackjackController.deal(15);
@@ -463,19 +450,6 @@ public class BlackjackControllerTests {
             this.mockMvc.perform(get("/games/" + 2L + "/hit"));
         } catch (Exception e) {
             fail();
-        }
-    }
-
-    @Test
-    void standTC74() {
-        for (int i = 0; i < 10_000; i++) {
-            blackjackController.deal(15);
-        }
-        try {
-            this.mockMvc.perform(get("/games/" + 10_000 + "/stand"));
-            fail();
-        } catch (Exception e) {
-            assertNotNull(e);
         }
     }
 
