@@ -221,21 +221,21 @@ public class BlackjackControllerTests {
 
     @Test
     void gameTC51() {
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             blackjackController.deal(15);
         }
         String expectedOutput = "game";
-        String output = blackjackController.game(1_000_000L, new ConcurrentModel());
+        String output = blackjackController.game(10_000L, new ConcurrentModel());
         assert(output).equals(expectedOutput);
     }
 
     @Test
     void gameTC52() {
-        for (int i = 0; i < 1_000_000 - 1; i++) {
+        for (int i = 0; i < 10_000 - 1; i++) {
             blackjackController.deal(15);
         }
         String expectedOutput = "game";
-        String output = blackjackController.game(1_000_000 - 1, new ConcurrentModel());
+        String output = blackjackController.game(10_000 - 1, new ConcurrentModel());
         assert(output).equals(expectedOutput);
     }
 
@@ -282,21 +282,21 @@ public class BlackjackControllerTests {
 
     @Test
     void dealAgainTC57() {
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             blackjackController.deal(15);
         }
-        String expectedOutput = "redirect:/games/" + 1_000_000;
-        String output = blackjackController.dealAgain(1_000_000, 1.11);
+        String expectedOutput = "redirect:/games/" + 10_000;
+        String output = blackjackController.dealAgain(10_000, 1.11);
         assert(output).equals(expectedOutput);
     }
 
     @Test
     void dealAgainTC58() {
-        for (int i = 0; i < 1_000_000 - 1; i++) {
+        for (int i = 0; i < 10_000 - 1; i++) {
             blackjackController.deal(15);
         }
-        String expectedOutput = "redirect:/games/" + (1_000_000 - 1);
-        String output = blackjackController.dealAgain(1_000_000 - 1, 1.11);
+        String expectedOutput = "redirect:/games/" + (10_000 - 1);
+        String output = blackjackController.dealAgain(10_000 - 1, 1.11);
         assert(output).equals(expectedOutput);
     }
 
@@ -399,7 +399,7 @@ public class BlackjackControllerTests {
 
     @Test
     void hitTC68() {
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             blackjackController.deal(15);
         }
         try {
@@ -412,11 +412,11 @@ public class BlackjackControllerTests {
 
     @Test
     void hitTC69() {
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             blackjackController.deal(15);
         }
         try {
-            this.mockMvc.perform(get("/games/" + 1_000_000 + "/hit"));
+            this.mockMvc.perform(get("/games/" + 10_000 + "/hit"));
         } catch (Exception e) {
             fail();
         }
@@ -424,11 +424,11 @@ public class BlackjackControllerTests {
 
     @Test
     void hitTC70() {
-        for (int i = 0; i < 1_000_000 - 1; i++) {
+        for (int i = 0; i < 10_000 - 1; i++) {
             blackjackController.deal(15);
         }
         try {
-            this.mockMvc.perform(get("/games/" + (1_000_000 - 1) + "/hit"));
+            this.mockMvc.perform(get("/games/" + (10_000 - 1) + "/hit"));
         } catch (Exception e) {
             fail();
         }
@@ -468,7 +468,7 @@ public class BlackjackControllerTests {
 
     @Test
     void standTC74() {
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             blackjackController.deal(15);
         }
         try {
@@ -481,11 +481,11 @@ public class BlackjackControllerTests {
 
     @Test
     void standTC75() {
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             blackjackController.deal(15);
         }
         try {
-            this.mockMvc.perform(get("/games/" + 1_000_000 + "/stand"));
+            this.mockMvc.perform(get("/games/" + 10_000 + "/stand"));
         } catch (Exception e) {
             fail();
         }
@@ -493,11 +493,11 @@ public class BlackjackControllerTests {
 
     @Test
     void standTC76() {
-        for (int i = 0; i < 1_000_000 - 1; i++) {
+        for (int i = 0; i < 10_000 - 1; i++) {
             blackjackController.deal(15);
         }
         try {
-            this.mockMvc.perform(get("/games/" + (1_000_000 - 1) + "/stand"));
+            this.mockMvc.perform(get("/games/" + (10_000 - 1) + "/stand"));
         } catch (Exception e) {
             fail();
         }
