@@ -253,7 +253,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack200() {
+    void winBlackjackTC200() {
         double bet = 100.0;
         game = new Game(bet);
         game.winBlackjack();
@@ -264,7 +264,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack201() {
+    void winBlackjackTC201() {
         double bet = 100.0;
         game = new Game(bet);
         game.tie();
@@ -277,7 +277,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack202() {
+    void winBlackjackTC202() {
         try {
             double bet = Double.MAX_VALUE + 1;
             game = new Game(bet);
@@ -290,7 +290,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack203() {
+    void winBlackjackTC203() {
         try {
             double bet = Double.MAX_VALUE;
             game = new Game(bet);
@@ -303,7 +303,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack204() {
+    void winBlackjackTC204() {
         try {
             double bet = Double.MAX_VALUE - 1.0;
             game = new Game(bet);
@@ -316,7 +316,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack205() {
+    void winBlackjackTC205() {
         try {
             double bet = 0.0;
             game = new Game(bet);
@@ -329,7 +329,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack206() {
+    void winBlackjackTC206() {
         double bet = 0.00001;
         game = new Game(bet);
         game.tie();
@@ -342,7 +342,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack207() {
+    void winBlackjackTC207() {
         double bet = 1.0;
         game = new Game(bet);
         game.tie();
@@ -355,7 +355,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack208() {
+    void winBlackjackTC208() {
         try {
             double bet = Double.MAX_VALUE + 1.0;
             game = new Game(bet);
@@ -372,7 +372,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack209() {
+    void winBlackjackTC209() {
         try {
             double bet = Double.MAX_VALUE;
             game = new Game(bet);
@@ -389,7 +389,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack210() {
+    void winBlackjackTC210() {
         try {
             double bet = Double.MAX_VALUE - 1;
             game = new Game(bet);
@@ -406,7 +406,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack211() {
+    void winBlackjackTC211() {
         try {
             double bet = Double.MIN_VALUE - 1;
             game = new Game(bet);
@@ -423,7 +423,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack212() {
+    void winBlackjackTC212() {
         double bet = Double.MIN_VALUE;
         game = new Game(bet);
         game.winBet();
@@ -438,7 +438,7 @@ public class GameTests {
     }
 
     @Test
-    void winBlackjack213() {
+    void winBlackjackTC213() {
         double bet = Double.MIN_VALUE + 1.0;
         game = new Game(bet);
         game.winBet();
@@ -453,7 +453,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet214() {
+    void loseBetTC214() {
         double bet = 1000.0;
         game = new Game(bet);
         game.winBet();
@@ -468,7 +468,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet215() {
+    void loseBetTC215() {
         double bet = 1000.0;
         game = new Game(bet);
         game.winBet();
@@ -485,7 +485,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet216() {
+    void loseBetTC216() {
         try {
             double bet = 1000.0;
             game = new Game(bet);
@@ -502,7 +502,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet217() {
+    void loseBetTC217() {
         double bet = 1000.0;
         game = new Game(bet);
         game.winBet();
@@ -517,7 +517,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet218() {
+    void loseBetTC218() {
         double bet = 1000.0;
         game = new Game(bet);
         game.winBet();
@@ -532,7 +532,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet219() {
+    void loseBetTC219() {
         try {
             double bet = 1000.0;
             game = new Game(bet);
@@ -549,7 +549,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet220() {
+    void loseBetTC220() {
         double bet = 1000.0;
         game = new Game(bet);
         game.winBet();
@@ -564,7 +564,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet221() {
+    void loseBetTC221() {
         double bet = 1000.0;
         game = new Game(bet);
         game.winBet();
@@ -579,7 +579,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet222() {
+    void loseBetTC222() {
         try {
             double bet = Double.MAX_VALUE + 1;
             game = new Game(bet);
@@ -596,7 +596,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet223() {
+    void loseBetTC223() {
         double bet = Double.MAX_VALUE;
         game = new Game(bet);
         game.winBet();
@@ -611,7 +611,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet224() {
+    void loseBetTC224() {
         double bet = Double.MAX_VALUE - 1.0;
         game = new Game(bet);
         game.winBet();
@@ -626,7 +626,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet225() {
+    void loseBetTC225() {
         try {
             double bet = Double.MIN_VALUE - 1;
             game = new Game(bet);
@@ -643,7 +643,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet226() {
+    void loseBetTC226() {
         try {
             double bet = Double.MIN_VALUE;
             game = new Game(bet);
@@ -660,7 +660,7 @@ public class GameTests {
     }
 
     @Test
-    void loseBet227() {
+    void loseBetTC227() {
         double bet = Double.MIN_VALUE + 1.0;
         game = new Game(bet);
         game.winBet();
@@ -675,16 +675,43 @@ public class GameTests {
     }
 
     @Test
-    void tie228() {
+    void tieTC228() {
         game.tie();
         assert(!game.isOngoing());
     }
 
     @Test
-    void tie229() {
+    void tieTC229() {
         game.winBet();
         System.out.println("Game won to set ongoing to false");
         game.tie();
         assert(!game.isOngoing());
+    }
+
+    @Test
+    void eventsTC242() {
+        game.getId();
+        game.getMoney();
+        game.getDeck();
+        game.getPlayerHand();
+        game.getDealerHand();
+        game.getMessage();
+        game.setMessage("message");
+        game.isOngoing();
+        game.winBet();
+        game.dealAgain(100.0);
+        game.winBlackjack();
+        game.dealAgain(100.0);
+        game.loseBet();
+        game.dealAgain(100.0);
+        game.tie();
+        game.getId();
+        game.getMoney();
+        game.getDeck();
+        game.getPlayerHand();
+        game.getDealerHand();
+        game.getMessage();
+        game.setMessage("message");
+        game.isOngoing();
     }
 }

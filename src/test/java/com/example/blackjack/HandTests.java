@@ -330,4 +330,12 @@ public class HandTests {
         int actualOutput = hand.getValue();
         assert(expectedOutput == actualOutput);
     }
+
+    @Test
+    void alphaOmegaTC243() {
+        hand.getCards();
+        hand.getValue();
+        hand.isBlackjack();
+        hand.flipLastCard();
+    }
 }
