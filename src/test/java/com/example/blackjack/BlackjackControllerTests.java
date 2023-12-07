@@ -747,9 +747,11 @@ public class BlackjackControllerTests {
     @Test
     void standTC183() {
         double bet = 100.0;
-        blackjackController.deal(bet);
+        for (int i = 0; i < 21; i++) {
+            blackjackController.deal(bet);
+        }
         try {
-            this.mockMvc.perform(get("/games/1/stand"));
+            this.mockMvc.perform(get("/games/21/stand"));
         } catch (Exception e) {
             fail();
         }
@@ -766,4 +768,29 @@ public class BlackjackControllerTests {
         }
     }
 
+    @Test
+    void standTC186() {
+        double bet = 100.0;
+        blackjackController.deal(bet);
+        try {
+            this.mockMvc.perform(get("/games/21/stand"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void eventsTC239() {
+        try {
+            long id = 1L;
+            double bet = 15.0;
+            blackjackController.deal(bet);
+            this.mockMvc.perform(get("/games/1/hit"));
+            this.mockMvc.perform(get("/games/1/hit"));
+            blackjackController.dealAgain(id, bet);
+            this.mockMvc.perform(get("/games/1/stand"));
+        } catch (Exception e) {
+            fail();
+        }
+    }
 }

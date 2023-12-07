@@ -237,4 +237,549 @@ public class GameTests {
         dealAgainTC131();
     }
 
+    @Test
+    void winBetTC191() {
+        game.winBet();
+        String expectedMoney = "$100.00";
+        String actualMoney = game.getMoney();
+        assert(actualMoney).equals(expectedMoney);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void winBetTC192() {
+        game.tie();
+        System.out.println("Game tied to ensure ongoing gets set to false and money is not modified.");
+        game.winBet();
+        String expectedMoney = "$100.00";
+        String actualMoney = game.getMoney();
+        assert(actualMoney).equals(expectedMoney);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void winBetTC194() {
+        try {
+            game = new Game(Double.MAX_VALUE + 1);
+            game.winBet();
+            // We are expecting a failure before this point.
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBetTC195() {
+        game = new Game(Double.MAX_VALUE);
+        game.winBet();
+        String expectedOutput = String.format("$%.2f", Double.MAX_VALUE);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+    }
+
+    @Test
+    void winBetTC196() {
+        game = new Game(Double.MAX_VALUE - 1);
+        game.winBet();
+        String expectedOutput = String.format("$%.2f", Double.MAX_VALUE - 1);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+    }
+
+    @Test
+    void winBetTC197() {
+        try {
+            double bet = 0.0;
+            game = new Game(bet);
+            game.winBet();
+            // We are expecting a failure before this point.
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBetTC198() {
+        double bet = 0.00001;
+        game = new Game(bet);
+        game.winBet();
+        String expectedOutput = String.format("$%.2f", bet);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+    }
+
+    @Test
+    void winBetTC199() {
+        double bet = 1.0;
+        game = new Game(bet);
+        game.winBet();
+        String expectedOutput = String.format("$%.2f", bet);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+    }
+
+    @Test
+    void winBlackjackTC200() {
+        double bet = 100.0;
+        game = new Game(bet);
+        game.winBlackjack();
+        String expectedOutput = String.format("$%.2f", bet + 50.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void winBlackjackTC201() {
+        double bet = 100.0;
+        game = new Game(bet);
+        game.tie();
+        System.out.println("Game tied to ensure ongoing gets set to false and money is not modified.");
+        game.winBlackjack();
+        String expectedOutput = String.format("$%.2f", bet + 50.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void winBlackjackTC202() {
+        try {
+            double bet = Double.MAX_VALUE + 1;
+            game = new Game(bet);
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC203() {
+        try {
+            double bet = Double.MAX_VALUE;
+            game = new Game(bet);
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC204() {
+        try {
+            double bet = Double.MAX_VALUE - 1.0;
+            game = new Game(bet);
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC205() {
+        try {
+            double bet = 0.0;
+            game = new Game(bet);
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC206() {
+        double bet = 0.00001;
+        game = new Game(bet);
+        game.tie();
+        System.out.println("Game tied to ensure ongoing gets set to false and money is not modified.");
+        game.winBlackjack();
+        String expectedOutput = String.format("$%.2f", bet + 0.000005);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void winBlackjackTC207() {
+        double bet = 1.0;
+        game = new Game(bet);
+        game.tie();
+        System.out.println("Game tied to ensure ongoing gets set to false and money is not modified.");
+        game.winBlackjack();
+        String expectedOutput = String.format("$%.2f", bet + 0.50);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void winBlackjackTC208() {
+        try {
+            double bet = Double.MAX_VALUE + 1.0;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to max value + 1");
+            game.dealAgain(1.0);
+            System.out.println("dealAgain called to reset the bet amount to 1.0");
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC209() {
+        try {
+            double bet = Double.MAX_VALUE;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to max value");
+            game.dealAgain(1.0);
+            System.out.println("dealAgain called to reset the bet amount to 1.0");
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC210() {
+        try {
+            double bet = Double.MAX_VALUE - 1;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to max value - 1");
+            game.dealAgain(1.0);
+            System.out.println("dealAgain called to reset the bet amount to 1.0");
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC211() {
+        try {
+            double bet = Double.MIN_VALUE - 1;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to min value - 1");
+            game.dealAgain(1.0);
+            System.out.println("dealAgain called to reset the bet amount to 1.0");
+            game.winBlackjack();
+            // Expected to fail before this point
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void winBlackjackTC212() {
+        double bet = Double.MIN_VALUE;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to min value");
+        game.dealAgain(1.0);
+        System.out.println("dealAgain called to reset the bet amount to 1.0");
+        game.winBlackjack();
+        String expectedOutput = String.format("$%.2f", bet + 1.5);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void winBlackjackTC213() {
+        double bet = Double.MIN_VALUE + 1.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to min value + 1");
+        game.dealAgain(1.0);
+        System.out.println("dealAgain called to reset the bet amount to 1.0");
+        game.winBlackjack();
+        String expectedOutput = String.format("$%.2f", bet + 1.5);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC214() {
+        double bet = 1000.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to 1000.0");
+        game.dealAgain(100.0);
+        System.out.println("dealAgain called to reset the bet amount to 100.0");
+        game.loseBet();
+        String expectedOutput = String.format("$%.2f", bet - 100.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC215() {
+        double bet = 1000.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to 1000.0");
+        game.dealAgain(100.0);
+        System.out.println("dealAgain called to reset the bet amount to 100.0");
+        game.tie();
+        System.out.println("Game tied to ensure ongoing gets set to false and money is not modified.");
+        game.loseBet();
+        String expectedOutput = String.format("$%.2f", bet - 100.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC216() {
+        try {
+            double bet = 1000.0;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to 1000.0");
+            game.dealAgain(Double.MAX_VALUE + 1);
+            System.out.println("dealAgain called to reset the bet amount to max value + 1");
+            game.loseBet();
+            // An exception should be thrown before this point.
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void loseBetTC217() {
+        double bet = 1000.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to 1000.0");
+        game.dealAgain(Double.MAX_VALUE);
+        System.out.println("dealAgain called to reset the bet amount to max value");
+        game.loseBet();
+        String expectedOutput = String.format("-$%.2f", Math.abs(bet - Double.MAX_VALUE));
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC218() {
+        double bet = 1000.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to 1000.0");
+        game.dealAgain(Double.MAX_VALUE - 1);
+        System.out.println("dealAgain called to reset the bet amount to max value - 1");
+        game.loseBet();
+        String expectedOutput = String.format("-$%.2f", Math.abs(bet - (Double.MAX_VALUE - 1)));
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC219() {
+        try {
+            double bet = 1000.0;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to 1000.0");
+            game.dealAgain(0);
+            System.out.println("dealAgain called to reset the bet amount to 0");
+            game.loseBet();
+            // An exception should be thrown before this point.
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void loseBetTC220() {
+        double bet = 1000.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to 1000.0");
+        game.dealAgain(0.00001);
+        System.out.println("dealAgain called to reset the bet amount to 0.00001");
+        game.loseBet();
+        String expectedOutput = String.format("$%.2f", bet - 0.00001);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC221() {
+        double bet = 1000.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to 1000.0");
+        game.dealAgain(1.0);
+        System.out.println("dealAgain called to reset the bet amount to 1.0");
+        game.loseBet();
+        String expectedOutput = String.format("$%.2f", bet - 1.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC222() {
+        try {
+            double bet = Double.MAX_VALUE + 1;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to max value + 1");
+            game.dealAgain(1.0);
+            System.out.println("dealAgain called to reset the bet amount to 1.0");
+            game.loseBet();
+            // An exception should be thrown before this point.
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void loseBetTC223() {
+        double bet = Double.MAX_VALUE;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to max value");
+        game.dealAgain(1.0);
+        System.out.println("dealAgain called to reset the bet amount to 1.0");
+        game.loseBet();
+        String expectedOutput = String.format("$%.2f", bet - 1.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC224() {
+        double bet = Double.MAX_VALUE - 1.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to max value");
+        game.dealAgain(1.0);
+        System.out.println("dealAgain called to reset the bet amount to 1.0");
+        game.loseBet();
+        String expectedOutput = String.format("$%.2f", bet - 1.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void loseBetTC225() {
+        try {
+            double bet = Double.MIN_VALUE - 1;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to min value - 1");
+            game.dealAgain(1.0);
+            System.out.println("dealAgain called to reset the bet amount to 1.0");
+            game.loseBet();
+            // An exception should be thrown before this point.
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void loseBetTC226() {
+        try {
+            double bet = Double.MIN_VALUE;
+            game = new Game(bet);
+            game.winBet();
+            System.out.println("Game won to set money to min value");
+            game.dealAgain(1.0);
+            System.out.println("dealAgain called to reset the bet amount to 1.0");
+            game.loseBet();
+            // An exception should be thrown before this point.
+            fail();
+        } catch (Exception e) {
+            assertNotNull(e);
+        }
+    }
+
+    @Test
+    void loseBetTC227() {
+        double bet = Double.MIN_VALUE + 1.0;
+        game = new Game(bet);
+        game.winBet();
+        System.out.println("Game won to set money to min value + 1.0");
+        game.dealAgain(1.0);
+        System.out.println("dealAgain called to reset the bet amount to 1.0");
+        game.loseBet();
+        String expectedOutput = String.format("$%.2f", bet - 1.0);
+        String actualOutput = game.getMoney();
+        assert(actualOutput).equals(expectedOutput);
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void tieTC228() {
+        game.tie();
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void tieTC229() {
+        game.winBet();
+        System.out.println("Game won to set ongoing to false");
+        game.tie();
+        assert(!game.isOngoing());
+    }
+
+    @Test
+    void eventsTC242() {
+        game.getId();
+        game.getMoney();
+        game.getDeck();
+        game.getPlayerHand();
+        game.getDealerHand();
+        game.getMessage();
+        game.setMessage("message");
+        game.isOngoing();
+        game.winBet();
+        game.dealAgain(100.0);
+        game.winBlackjack();
+        game.dealAgain(100.0);
+        game.loseBet();
+        game.dealAgain(100.0);
+        game.tie();
+        game.getId();
+        game.getMoney();
+        game.getDeck();
+        game.getPlayerHand();
+        game.getDealerHand();
+        game.getMessage();
+        game.setMessage("message");
+        game.isOngoing();
+    }
 }

@@ -108,4 +108,15 @@ public class DeckTests {
     void deckTC164() {
         deckTC119();
     }
+
+    @Test
+    void alphaOmegaTC241() {
+        Deck deck = new Deck();
+        // Getting a playerHand object (since no constructor is available)
+        Game game = new Game(100.0);
+        Hand playerHand = game.getPlayerHand();
+        System.out.println("game generated with bet of 100 to get a hand from the player to use");
+        deck.dealFaceUp(playerHand);
+        deck.dealFaceDown(playerHand);
+    }
 }
