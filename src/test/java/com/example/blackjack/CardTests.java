@@ -81,4 +81,12 @@ public class CardTests {
         toStringTC112();
     }
 
+    @Test
+    void alphaOmegaTC240() {
+        Card card = new Card(Rank.ACE, "♣");
+        card.getRank();
+        card.isFlipped();
+        card.toString();
+        card.flip();
+    }
 }
